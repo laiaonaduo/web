@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Dao.TeamDao">
+    <!-- 使用insert, update,delete,select标签写sql -->
+    <insert id="insertTeam">
+        insert into team values(#{team_name})
+    </insert>
+
+    <!--定义列和属性对应关系-->
+    <resultMap id="teamMap" type="domain.Team">
+        <result column="team_name" property="team_name" />
+    </resultMap>
+
+    <select id="select_team_ById"  resultMap="teamMap">
+        select * from student where username=#{teamId}
+    </select>
+
+    <select id="select_team"  resultMap="studentMap">
+        select * from student
+    </select>
+
+
+</mapper>

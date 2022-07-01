@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Dao.StudentDao">
+    <!-- 使用insert, update,delete,select标签写sql -->
+    <insert id="insertStudent">
+        insert into student values(#{name},#{username},#{password},#{is_teamleader},#{team_id})
+    </insert>
+
+    <!--定义列和属性对应关系-->
+    <resultMap id="studentMap" type="domain.Student">
+        <result column="name" property="name" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="is_teamleader" property="is_teamleader" />
+        <result column="team_id" property="team_id" />
+    </resultMap>
+
+    <select id="select_student_ById"  resultMap="studentMap">
+        select * from student where username=#{studentId}
+    </select>
+
+    <select id="select_student"  resultMap="studentMap">
+        select * from student
+    </select>
+
+
+</mapper>

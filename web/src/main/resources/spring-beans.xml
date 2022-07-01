@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="jdbc.properties"/>
+
+
+    <!--声明数据源DataSource-->
+    <bean id="myDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+    <!--声明SqlSessionFactoryBean,在这个类的内部，创建SqlSessionFactory-->
+    <bean id="factory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--指定数据源-->
+        <property name="dataSource" ref="myDataSource" />
+        <!--指定mybatis主配置文件
+            Resource可以直接使用 value属性赋值。-->
+        <property name="configLocation" value="classpath:mybatis.xml" />
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--指定SqlSessionFactory对象的名称-->
+        <property name="sqlSessionFactoryBeanName" value="factory" />
+        <!--指定基本包，dao接口所在的包名,这里自动生成bean-->
+        <property name="basePackage" value="Dao" />
+    </bean>
+
+
+
+    <!--    注册spring框架，即，注册监听器-->
+    <!--    注册监听器ContextLoaderListener,监听器被创建后，会默认读取/WEB-INF/spring.xml ;
+            为什么要读取文件?
+            因为监听器中要创建ApplicationContext对象，需要加载配置文件。
+            /WEB-INF/ApplicationContext.xml , 就是监听器默认读取的spring配置文件路径。
+
+            可以修改默认的文件位置，使用context-param重新指定文件位置
+    -->
+
+
+
+
+
+
+
+    <bean id="studentService" class="service.imp.StudentServiceImpl">
+        <property name="dao" ref="studentDao" />
+    </bean>
+
+
+
+
+
+
+</beans>
